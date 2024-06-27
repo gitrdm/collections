@@ -1,7 +1,3 @@
-debug <- FALSE
-
-# Set Constructor ####
-
 #' Title Set Environment
 #'
 #' @return A new set_env object.
