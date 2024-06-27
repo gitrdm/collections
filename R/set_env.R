@@ -285,11 +285,11 @@ add_many.set_env <- function(set, items) {
   if (!inherits(set, "set_env")) {
     stop("The provided object is not a set_env")
   }
-  if (!is.vector(items) && !is.list(items)) {
-    stop("Items must be a vector or a list")
-  }
+  # if (!is.vector(items) && !is.list(items)) {
+  #   stop("Items must be a vector or a list")
+  # }
   for (item in items) {
-    set <- add.set_env(set, item)  # Assuming add.set_env() adds a single item
+    set <- add.set_env(set, item)
   }
   return(set)
 }

@@ -2,8 +2,7 @@ Package: collections
 Title: Various Classes to Encapsulate Behaviours Used on R Built-in Collections
 Version: 0.0.0.9000
 Authors@R: c(
-    person("gitrdm", "", , email = "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+    person("gitrdm", "", , email = "49376741+gitrdm@users.noreply.github.com", role = c("aut", "cre"))
   )
 Description: Various classes to encapsulate behaviours used on R built-in collectons.
 License: MIT + file LICENSE
@@ -12,8 +11,9 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
 Imports: 
     digest,
-    microbenchmark,
-    withr
 Suggests: 
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    microbenchmark,
+    withr,
+    covr
 Config/testthat/edition: 3

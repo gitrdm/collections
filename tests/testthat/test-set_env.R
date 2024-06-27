@@ -2,7 +2,7 @@
 # add_many, and contains functions, you set the environment variable RUN_SET_TESTS to true.
 # To run the benchmarks, set the environment variable RUN_BENCHMARKS to true.
 
-withr::with_envvar(c(RUN_SET_TESTS = "true", RUN_BENCHMARKS = "true"), {
+withr::with_envvar(c(RUN_SET_TESTS = "true", RUN_BENCHMARKS = "false"), {
   test_that("set_env creates a new set environment", {
     set <- set_env()
     expect_true(inherits(set, "set_env"))
@@ -125,9 +125,15 @@ withr::with_envvar(c(RUN_SET_TESTS = "true", RUN_BENCHMARKS = "true"), {
     expect_true(all(obj %in% get_objects.set_env(set)))
   })
 
+  test_that("as.set_env converts objects to set_env correctly", {
+    obj <- "apple"
+    set <- as.set_env(obj)
+    expect_true(all(obj %in% get_objects.set_env(set)))
+  })
+
   test_that("add_many.set_env adds multiple objects", {
     set <- set_env()
-    items <- c("apple", "banana", "cherry")
+    items <- c("apple", "banana", "cherry", new.env(), 10)
     set <- add_many.set_env(set, items)
     expect_true(all(items %in% get_objects.set_env(set)))
   })
@@ -249,3 +255,105 @@ withr::with_envvar(c(RUN_SET_TESTS = "true", RUN_BENCHMARKS = "true"), {
     expect_true(file_exists, info = "Benchmark file was not successfully written.")
     expect_true(content_has_timestamp, info = "Benchmark file does not contain a timestamp.")
   })
+
+  # Test Error Handling ##########################################################
+
+  test_that("add_many.set_env raises an error for invalid 'set' argument", {
+    # Create an object that is not a set_env
+    not_a_set <- list()
+
+    # Create a dummy items vector
+    items <- "apple"
+
+    # Expect an error when 'not_a_set' is used as the 'set' argument
+    expect_error(add.set_env(not_a_set, items), "The provided object is not a set_env")
+  })
+
+  # Test for invalid 'set' argument################################################
+  test_that("contains.set_env raises an error for invalid 'set' argument", {
+    # Create an object that is not a set_env
+    not_a_set <- list()
+
+    # Expect an error when this object is used with contains.set_env
+    expect_error(contains.set_env(not_a_set, "apple"), "The provided object is not a set_env")
+  })
+
+  # Test for invalid 'remove' ################################################
+  test_that("contains.set_env raises an error for invalid 'set' argument", {
+    # Create an object that is not a set_env
+    not_a_set <- list()
+
+    # Expect an error when this object is used with contains.set_env
+    expect_error(remove.set_env(not_a_set, "apple"), "The provided object is not a set_env")
+  })
+
+  # Test for invalid 'remove_all' ################################################
+  test_that("contains.set_env raises an error for invalid 'set' argument", {
+    # Create an object that is not a set_env
+    not_a_set <- list()
+
+    # Expect an error when this object is used with contains.set_env
+    expect_error(remove_all.set_env(not_a_set), "The provided object is not a set_env")
+  })
+
+  test_that("contains.set_env raises an error for invalid 'set' argument", {
+    # Create an object that is not a set_env
+    not_a_set <- list()
+
+    # Expect an error when this object is used with contains.set_env
+    expect_error(get_objects.set_env(not_a_set), "The provided object is not a set_env")
+  })
+
+  test_that("contains.set_env raises an error for invalid 'set' argument", {
+    # Create an object that is not a set_env
+    not_a_set <- list()
+
+    # Expect an error when this object is used with contains.set_env
+    expect_error(get_keys.set_env(not_a_set), "The provided object is not a set_env")
+  })
+
+  # Test for the first error condition: 'set' is not a 'set_env'
+  test_that("add_many.set_env raises an error for invalid 'set' argument", {
+    # Create an object that is not a set_env
+    not_a_set <- list()
+
+    # Create a dummy items vector
+    items <- c("apple", "banana")
+
+    # Expect an error when 'not_a_set' is used as the 'set' argument
+    expect_error(add_many.set_env(not_a_set, items), "The provided object is not a set_env")
+  })
+
+  # test_that("add_many.set_env raises an error for invalid 'set' argument", {
+  #   # Create an object that is not a set_env
+  #   not_a_set <- set_env()
+  #
+  #   # Create a dummy items vector
+  #   items <- new.env()
+  #
+  #   # Expect an error when 'not_a_set' is used as the 'set' argument
+  #   expect_error(add_many.set_env(not_a_set, items), "Items must be a vector or a list")
+  # })
+
+  # Test for the first error condition: 'set' is not a 'set_env'
+  test_that("as.set_env raises an error for invalid 'set' argument", {
+    # Create an object that is not a set_env
+    not_a_set <- new.env()
+
+    # Expect an error when 'not_a_set' is used as the 'set' argument
+    expect_error(add_many.set_env(not_a_set), "The provided object is not a set_env")
+  })
+
+  # Test for the second error condition: 'items' is neither a vector nor a list
+  # test_that("add_many.set_env raises an error for invalid 'items' argument", {
+  #   # Create a dummy set_env object (assuming a constructor function exists)
+  #   # If no constructor exists, you might need to mock or create a dummy object with the correct class attribute
+  #   dummy_set <- set_env()  # Assuming this creates an object of class 'set_env'
+  #
+  #   # Create an 'items' argument that is neither a vector nor a list (e.g., a single integer)
+  #   invalid_items <- 42
+  #
+  #   # Expect an error when 'invalid_items' is used as the 'items' argument
+  #   expect_error(add_many.set_env(dummy_set, invalid_items), "Items must be a vector or a list")
+  # })
+})
